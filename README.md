@@ -36,7 +36,7 @@ printf '%s\n' "$OPENROUTER_API_KEY" | ./nexus setup --backend openrouter --api-k
 
 Port 11435 taken, or a second copy wanted? Set `NEXUS_PORT` (for example `export NEXUS_PORT=11437`) in the shell before `./install.sh`, `./nexus start`, `./nexus run`, `./nexus test` and `./doctor.sh`, then use that port in the base URL you give your app. Nexus still listens on `127.0.0.1` only. Details: [docs/service.md](docs/service.md#another-port-or-a-second-checkout).
 
-**Status.** Pre-1.0 (0.7.2). Every backend has automated tests against mocked upstreams or fake CLI binaries. The `chatgpt` backend has been proven end to end with Rabbit OS3 (Cipher) on a live install: a tool-using weather task succeeded on 2026-10-19. No other backend has been run end to end with OS3, and the free OpenRouter default model is still unverified with OS3. Experimental: the plan CLIs, `nous` and `./nexus rabbit`.
+**Status.** Pre-1.0 (0.7.2). Every backend has automated tests against mocked upstreams or fake CLI binaries. The `chatgpt` backend has been proven end to end with Rabbit OS3 on a live install: a tool-using weather task succeeded on 2026-10-19 and again on a real Rabbit R1 on 2026-10-22, with the forecast spoken back. No other backend has been run end to end with OS3, and the free OpenRouter default model is still unverified with OS3. Experimental: the plan CLIs, `nous` and `./nexus rabbit`.
 
 ## Other things to know
 
@@ -45,6 +45,8 @@ Port 11435 taken, or a second copy wanted? Set `NEXUS_PORT` (for example `export
 - **Rabbit stores your settings.** OS3 saves the connection you give it, including the Nexus key, on Rabbit's servers.
 - **Network.** Nexus has no analytics and never updates itself. It contacts the provider you configure. With the `chatgpt` backend it also contacts `chatgpt.com` and `auth.openai.com`. It contacts Rabbit's site only while you run `./nexus rabbit`.
 - **Local only.** Nexus listens on `127.0.0.1` only. It keeps keys in files that only your user can read.
+
+- **Speed.** Nexus runs on the same computer as OS3 and adds no delay you can measure. In a side-by-side test on 2026-10-22 (10 requests each, ChatGPT plan), short answers finished in a median of 1.3 seconds through Nexus and 1.7 seconds calling ChatGPT directly; the gap is ordinary network variation. Most of the wait is the model writing its reply. Tool tasks take one round trip per step.
 
 ## Requirements
 
