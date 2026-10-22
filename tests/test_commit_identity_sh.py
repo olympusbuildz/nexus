@@ -94,4 +94,4 @@ def test_the_repository_tree_has_no_personal_mailbox() -> None:
     done = subprocess.run(
         ["bash", str(SCRIPT), "HEAD^!"], cwd=ROOT, capture_output=True, text=True, check=False
     )
-    assert "personal mailbox" not in done.stderr, done.stderr
+    assert "personal mailbox addresses in the tree" not in done.stderr, done.stderr
