@@ -9,6 +9,8 @@
 
 Created by olympusbuildz.
 
+https://github.com/user-attachments/assets/987bca0c-16ec-4d02-a20c-32649c3eb552
+
 Nexus is built for Rabbit OS3 (OS3 Local) and works with any app that lets you set a custom OpenAI base URL. Apps call `http://127.0.0.1:11435/v1`, and Nexus forwards each call to the backend you chose.
 
 > **Read this before you connect a subscription.** Nexus uses your own logins and API keys. Using a consumer subscription this way may break that provider's terms, and the provider could limit or suspend your account. Your prompts still go to the provider you pick; only the endpoint is local.
