@@ -4,7 +4,7 @@ Map for coding agents working in this repository. Humans: start with [CONTRIBUTI
 
 ## What this repo is
 
-Nexus (`./nexus`; `./os3-bridge` still works) is a local OpenAI-compatible `/v1` endpoint on `127.0.0.1:11435`, built for Rabbit OS3 (OS3 Local / Cipher) and usable by any app with a custom base URL. Upstream is one backend: an API key, the `chatgpt` plan login, or a subscription CLI. It is not Hermes Agent and not Rabbit’s UI.
+Nexus (`./nexus`; `./os3-bridge` still works) is a local OpenAI-compatible `/v1` endpoint on `127.0.0.1:11435`, built for Rabbit OS3 (OS3 Local) and usable by any app with a custom base URL. Upstream is one backend: an API key, the `chatgpt` plan login, or a subscription CLI. It is not Hermes Agent and not Rabbit’s UI.
 
 ## Layout
 

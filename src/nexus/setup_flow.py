@@ -319,7 +319,7 @@ def connect_steps(
         f"  Model: {model}",
         f"  Backend: {backend}",
         "",
-        "Paste that base URL into the OS3 harness (OS3 Local / Cipher).",
+        "Paste that base URL into the OS3 harness (OS3 Local).",
         "Read the API key file only to paste it into the client.",
         "",
     ]

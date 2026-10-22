@@ -2,7 +2,7 @@
 
 This page is client wiring. The install and the first-time Rabbit OS3 walkthrough are in the [README](README.md). Backends, provider terms and settings are in [docs/backends.md](docs/backends.md).
 
-**Which backends work with Rabbit OS3.** OS3 Local and Cipher send tool definitions on their main chat, worker and computer-use requests. Every plan CLI backend (`codex`, `claude-code`, `copilot`, `grok-build`, `antigravity`) refuses tools with HTTP 400 `tools_not_supported`, so OS3 cannot use them. For OS3 use an API-key backend (`openrouter`, `openai`, `anthropic`, `xai`, `nous`) or `chatgpt` (a ChatGPT plan login, at your own risk). OS3 and Cursor are clients, not backends. The risk of using a subscription is in [docs/backends.md](docs/backends.md#provider-risk).
+**Which backends work with Rabbit OS3.** OS3 Local sends tool definitions on their main chat, worker and computer-use requests. Every plan CLI backend (`codex`, `claude-code`, `copilot`, `grok-build`, `antigravity`) refuses tools with HTTP 400 `tools_not_supported`, so OS3 cannot use them. For OS3 use an API-key backend (`openrouter`, `openai`, `anthropic`, `xai`, `nous`) or `chatgpt` (a ChatGPT plan login, at your own risk). OS3 and Cursor are clients, not backends. The risk of using a subscription is in [docs/backends.md](docs/backends.md#provider-risk).
 
 Nexus has to be running. On a clean Mac or Linux host:
 
@@ -44,7 +44,7 @@ If a client appends `/v1/chat/completions` itself, its base URL field is `http:/
 
 Every client field uses `127.0.0.1`. Do not substitute localhost. The process binds that address only. A client pointed at localhost can miss it.
 
-## Rabbit OS3 (OS3 Local and Cipher)
+## Rabbit OS3 (OS3 Local)
 
 This is the main use. OS3 Local runs on the same computer as Nexus: Rabbit's `rabbit-agent` makes the calls to the loopback address below, so nothing is exposed off the machine. Point OS3 at:
 
@@ -56,7 +56,7 @@ This is the main use. OS3 Local runs on the same computer as Nexus: Rabbit's `ra
 
 Unless you opt in to `./nexus rabbit setup` ([docs/rabbit-setup.md](docs/rabbit-setup.md)), Nexus does not change OS3's saved settings. When port 11435 is already taken, `./nexus start` leaves that process running. `./nexus stop` unloads only the packaged LaunchAgent (`ai.nexus.server`) or `nexus.service` user unit. Rabbit's own UI and in-app wiring live outside this repository.
 
-## Cipher: tools and screenshots
+## OS3 agent: tools and screenshots
 
 Send these on `POST /v1/chat/completions` with the same bearer. One assistant turn may include several `tool_calls`. The next turn sends one `role: "tool"` message per call, with that call's `tool_call_id`. Screenshots are `image_url` parts. Use a `data:image/png;base64,...` URL (jpeg, gif, and webp work the same way).
 

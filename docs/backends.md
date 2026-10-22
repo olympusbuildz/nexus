@@ -186,7 +186,7 @@ The provider-credential line proves the configured key, not just its file: a pla
 
 ## Limits
 
-- A subscription backend returns 503 when its CLI is missing or logged out, and 400 for client tool calls. Inline screenshots are accepted only on `codex`, `claude-code` and `copilot`. `grok-build` and `antigravity` return 400 `images_not_supported`. Remote image URLs are not fetched. `max_tokens` is not enforced on those CLIs. The full table is in [CONNECT.md](../CONNECT.md#cipher-tools-and-screenshots).
+- A subscription backend returns 503 when its CLI is missing or logged out, and 400 for client tool calls. Inline screenshots are accepted only on `codex`, `claude-code` and `copilot`. `grok-build` and `antigravity` return 400 `images_not_supported`. Remote image URLs are not fetched. `max_tokens` is not enforced on those CLIs. The full table is in [CONNECT.md](../CONNECT.md#os3-agent-tools-and-screenshots).
 - `/v1/messages` on the non-Anthropic backends translates text, images and parallel tool use, and drops Anthropic prompt-cache controls and extended thinking. With `NEXUS_BACKEND=anthropic` the JSON is forwarded, including thinking and cache controls.
 - Subscription streaming is OpenAI SSE built from CLI events. The HTTP status is an error only when the CLI fails before the first token.
 - No per-client quotas or billing. `NEXUS_MAX_INFLIGHT` (default 8, at most 64) caps concurrent upstream chat calls. Retries are limited to the optional fallback chain, one re-ask after an invalid tool call, and the one `chatgpt` retry described above.

@@ -365,11 +365,11 @@ templates.
 
 ### Docs
 
-- README names what is in this repo versus sibling products (Cipher, Rabbit,
+- README names what is in this repo versus sibling products (Rabbit,
   GrokBot paths, Hermes), documents keeping the `com.grokbot.os3-bridge` label,
   and moves Nous Portal out of the lead pitch into an advanced section.
 - README and CONNECT lead with the OS3 harness path: Claude / ChatGPT / Grok
-  plan (via the official CLI) into OS3 Local or Cipher. OpenRouter stays the
+  plan (via the official CLI) into OS3 Local. OpenRouter stays the
   setup default when no plan CLI is on `PATH`. Setup prints "OS3 CONNECT".
 - `assets/banner.png`, a badge row and feature table in the README, install and
   getting-started sections, `AGENTS.md`, and `.github` issue and pull request
