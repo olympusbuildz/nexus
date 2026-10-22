@@ -1,0 +1,250 @@
+{
+  "model": "meituan/longcat-2.5-preview:free",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a worker agent in OS3. You execute tasks by calling tools on the user's device.\n<nodes>\n<node id=\"7c1d2e4a-5b6f-4a8c-9d0e-1f2a3b4c5d6e\" name=\"Studio Mini\" default=\"true\">\n<can-run-commands>yes</can-run-commands>\n<platform>darwin</platform>\n<hostname>Studio-Mini.local</hostname>\n</node>\n<node id=\"b3a9c8d7-e6f5-4b4a-8c3d-2e1f0a9b8c7d\" name=\"Laptop\">\n<can-run-commands>yes</can-run-commands>\n<platform>darwin</platform>\n<hostname>Laptop.local</hostname>\n</node>\n</nodes>\nThe user has approved operating the device for this task. Report the result when done."
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "<task>List the .dmg installers in ~/Downloads on the Studio Mini and tell me how big they are in total.</task>"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "call_a1",
+          "type": "function",
+          "function": {
+            "name": "notify_before_act",
+            "arguments": "{\"message\": \"Checking your Downloads folder.\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_a1",
+      "content": [
+        {
+          "type": "text",
+          "text": "The line went out to the user. Do the work now."
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "call_a2",
+          "type": "function",
+          "function": {
+            "name": "shell",
+            "arguments": "{\"command\": \"ls -l ~/Downloads/*.dmg\", \"node_id\": \"7c1d2e4a-5b6f-4a8c-9d0e-1f2a3b4c5d6e\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_a2",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"exitCode\": 0, \"stdout\": \"-rw-r--r--  1 u  staff  52428800 Jan  3 10:00 /Users/u/Downloads/a.dmg\\n-rw-r--r--  1 u  staff  10485760 Jan  4 11:00 /Users/u/Downloads/b.dmg\\n\", \"stderr\": \"\"}"
+        }
+      ]
+    }
+  ],
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "skill_view",
+        "description": "Read a skill's instructions.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "name"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "shell",
+        "description": "Run a shell command on a device.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "command": {
+              "type": "string"
+            },
+            "node_id": {
+              "type": "string",
+              "description": "Id of a registered device from the <nodes> list."
+            },
+            "timeout_ms": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "command",
+            "node_id"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "file_read",
+        "description": "Read a file on a device.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "node_id": {
+              "type": "string",
+              "description": "Id of a registered device from the <nodes> list."
+            }
+          },
+          "required": [
+            "path",
+            "node_id"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "file_write",
+        "description": "Write a file on a device.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "content": {
+              "type": "string"
+            },
+            "node_id": {
+              "type": "string",
+              "description": "Id of a registered device from the <nodes> list."
+            }
+          },
+          "required": [
+            "path",
+            "content",
+            "node_id"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "notify_before_act",
+        "description": "Tell the user in one line what you are about to do.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "message"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "todo",
+        "description": "Keep the task checklist.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "text",
+                  "status"
+                ],
+                "properties": {
+                  "text": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "pending",
+                      "in_progress",
+                      "done"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "required": [
+            "items"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "ask_user",
+        "description": "Ask the user a question and wait.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "question": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "question"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "get_setup_status",
+        "description": "Report which OS3 capabilities are configured.",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        }
+      }
+    }
+  ],
+  "tool_choice": "auto",
+  "reasoning_effort": "medium"
+}

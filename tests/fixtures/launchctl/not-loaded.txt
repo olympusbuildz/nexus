@@ -1,0 +1,3 @@
+Bad request.
+Could not find service "com.example.does-not-exist" in domain for user gui: 501
+exit=113

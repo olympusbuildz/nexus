@@ -1,0 +1,99 @@
+<!-- Render: google-chrome --headless=new --no-sandbox --hide-scrollbars --force-device-scale-factor=2 --window-size=1600,900 --screenshot=docs/architecture.png file://$PWD/docs/architecture/index.html -->
+<!doctype html><html><head><meta charset="utf-8"><style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0b0f14;--card:#111821;--card2:#0f151d;--line:rgba(255,255,255,.08);--teal:#2ee6c8;--muted:#8b98a8;--text:#eef3f7;--green:#3ddc84}
+html,body{width:1600px;height:900px;overflow:hidden}
+body{position:relative;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+ background-image:radial-gradient(ellipse 700px 420px at 50% 54%,rgba(46,230,200,.07),transparent 70%),
+ linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+ background-size:100% 100%,40px 40px,40px 40px}
+.abs{position:absolute}
+.mono{font-family:"JetBrains Mono","SFMono-Regular",Menlo,Consolas,monospace}
+.brand{left:64px;top:44px}
+.brand .word{font-size:46px;font-weight:800;letter-spacing:-1.5px;color:var(--teal);line-height:1;display:flex;align-items:center;gap:12px}
+.brand .word .dot{width:14px;height:14px;border-radius:50%;background:var(--teal);box-shadow:0 0 18px rgba(46,230,200,.7)}
+.brand .sub{margin-top:14px;font-size:18px;color:var(--muted);font-weight:450}
+.label{font-size:12.5px;font-weight:700;letter-spacing:2.2px;color:var(--teal);opacity:.9}
+.card{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.app{width:300px;height:76px;display:flex;align-items:center;gap:16px;padding:0 20px;font-size:18px;font-weight:600}
+.ico{width:36px;height:36px;border-radius:10px;background:rgba(46,230,200,.1);border:1px solid rgba(46,230,200,.28);display:flex;align-items:center;justify-content:center;flex:none}
+.ico i{width:10px;height:10px;border-radius:3px;background:var(--teal)}
+.caption{font-size:13.5px;color:var(--muted)}
+.caption b{color:var(--text);font-weight:500}
+.engine{left:530px;top:350px;width:460px;height:288px;padding:26px 28px;border:1px solid rgba(46,230,200,.45);
+ box-shadow:0 0 0 1px rgba(46,230,200,.08),0 0 60px rgba(46,230,200,.12),0 16px 40px rgba(0,0,0,.45)}
+.engine h2{font-size:21px;font-weight:700;letter-spacing:-.2px;margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.engine h2 .pulse{width:10px;height:10px;border-radius:50%;background:var(--teal);box-shadow:0 0 12px var(--teal)}
+.engine ul{list-style:none}
+.engine li{font-size:15.5px;color:#d5dde5;padding:9px 0;display:flex;align-items:center;gap:12px;border-top:1px solid rgba(255,255,255,.05)}
+.engine li:first-child{border-top:none}
+.engine li::before{content:"";width:6px;height:6px;border-radius:2px;background:var(--teal);flex:none}
+.chip{display:inline-flex;align-items:center;gap:8px;border-radius:999px;font-size:13.5px;padding:7px 14px;border:1px solid rgba(46,230,200,.35);background:rgba(46,230,200,.08);color:var(--teal);font-weight:500}
+.group{width:390px;padding:16px 20px 10px}
+.group h3{font-size:14.5px;font-weight:650;color:var(--text);display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.group h3 span{font-size:11.5px;letter-spacing:1.5px;color:var(--muted);font-weight:600}
+.row{display:flex;align-items:center;gap:12px;height:40px;font-size:15.5px;font-weight:500;border-bottom:1px solid rgba(255,255,255,.04)}
+.row:last-child{border-bottom:none}
+.row::before{content:"";width:7px;height:7px;border-radius:50%;background:rgba(46,230,200,.75);flex:none}
+.row .free{color:var(--muted);font-weight:400;font-size:14px}
+.row .primary{margin-left:auto;font-size:11px;font-weight:700;letter-spacing:1.2px;color:var(--green);background:rgba(61,220,132,.12);border:1px solid rgba(61,220,132,.45);border-radius:999px;padding:4px 10px}
+.status{left:64px;top:818px;width:1472px;height:50px;display:flex;align-items:center;gap:0;padding:0 24px;font-size:14px;border-radius:12px}
+.status .it{display:flex;align-items:center;gap:10px;padding:0 26px;border-left:1px solid var(--line);height:24px}
+.status .it:first-child{border-left:none;padding-left:0}
+.status .k{color:var(--muted)}
+.status .v{color:var(--text)}
+.status .ok{color:var(--green);font-weight:700;letter-spacing:.8px;display:flex;align-items:center;gap:8px}
+.status .ok::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+svg.wires{position:absolute;left:0;top:0;width:1600px;height:900px;pointer-events:none}
+</style></head><body>
+<svg class="wires" viewBox="0 0 1600 900">
+ <defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2ee6c8"/></marker>
+  <linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#2ee6c8" stop-opacity=".25"/><stop offset="1" stop-color="#2ee6c8" stop-opacity=".9"/></linearGradient>
+ </defs>
+ <g fill="none" stroke="#2ee6c8" stroke-opacity=".75" stroke-width="2" marker-end="url(#ah)">
+  <path d="M366,398 C445,398 445,444 526,444"/>
+  <path d="M366,494 L526,494"/>
+  <path d="M366,590 C445,590 445,544 526,544"/>
+  <path d="M994,460 C1072,460 1072,340 1144,340"/>
+  <path d="M994,528 C1072,528 1072,640 1144,640"/>
+ </g>
+</svg>
+
+<div class="abs brand"><div class="word">nexus<span class="dot"></span></div>
+<div class="sub">One local OpenAI-compatible endpoint for your own API keys and AI subscriptions.</div></div>
+
+<div class="abs label" style="left:64px;top:330px">YOUR APPS</div>
+<div class="abs card app" style="left:64px;top:360px"><div class="ico"><i></i></div>Rabbit OS3</div>
+<div class="abs card app" style="left:64px;top:456px"><div class="ico"><i></i></div>Editors &amp; agents</div>
+<div class="abs card app" style="left:64px;top:552px"><div class="ico"><i></i></div>Scripts &amp; tools</div>
+<div class="abs caption" style="left:64px;top:648px">base URL <b class="mono">http://127.0.0.1:11435/v1</b></div>
+
+<div class="abs card engine">
+ <h2><span class="pulse"></span>Nexus, on your computer</h2>
+ <ul>
+  <li><span><span class="mono">127.0.0.1:11435</span>, loopback only</span></li>
+  <li>OpenAI + Anthropic compatible /v1</li>
+  <li>Nexus key auth • same-origin guard</li>
+  <li>Streaming with [DONE] • error hints</li>
+  <li>Tool-call repair • per-role routing</li>
+ </ul>
+</div>
+<div class="abs" style="left:530px;top:660px;width:460px;text-align:center"><span class="chip">Nexus dashboard at <span class="mono">/</span></span></div>
+
+<div class="abs label" style="left:1146px;top:150px">BACKENDS</div>
+<div class="abs card group" style="left:1146px;top:180px">
+ <h3>Accept tool calls (OS3 needs this) <span>YES</span></h3>
+ <div class="row">OpenRouter<span class="primary">DEFAULT</span></div><div class="row">OpenAI</div><div class="row">Anthropic</div><div class="row">xAI</div><div class="row">ChatGPT plan login <span class="free">(own risk)</span></div><div class="row">Nous <span class="free">(advanced)</span></div>
+</div>
+<div class="abs card group" style="left:1146px;top:510px">
+ <h3>Subscription CLIs <span>NO TOOLS</span></h3>
+ <div class="row">Codex</div><div class="row">Claude Code</div><div class="row">GitHub Copilot</div><div class="row">Grok Build</div><div class="row">Antigravity <span class="free">(off by default)</span></div>
+</div>
+
+<div class="abs card status">
+ <div class="it"><span class="k">Service</span><span class="v">LaunchAgent (macOS) or systemd user unit (Linux)</span></div>
+ <div class="it"><span class="k">Dashboard</span><span class="v mono">/</span></div>
+ <div class="it"><span class="k">Health</span><span class="v mono">/health</span></div>
+</div>
+</body></html>

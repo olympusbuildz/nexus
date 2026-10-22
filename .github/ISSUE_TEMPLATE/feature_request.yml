@@ -1,0 +1,50 @@
+name: "Feature Request"
+description: Suggest a new feature or improvement.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the suggestion. Search existing issues first.
+
+        This repo is Nexus, the local endpoint for Rabbit OS3 and other OpenAI-compatible apps. Rabbit's UI and
+        Hermes Agent live elsewhere; feature requests for those products belong
+        in their own trackers.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or Use Case
+      description: What can you not do today?
+      placeholder: |
+        I want to use <backend or app> with Rabbit OS3, but today…
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: How should it work? CLI flags, backends, dashboard behavior, docs.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Feature Type
+      options:
+        - New or improved backend
+        - CLI / install / service
+        - Dashboard
+        - Client wiring / CONNECT docs
+        - Security hardening
+        - Other
+    validations:
+      required: true

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Run the setup and service commands with this checkout's virtualenv.
+# ./nexus and ./os3-bridge are the same script; ./os3-bridge stays for existing installs.
+set -euo pipefail
+ROOT="$(cd "$(dirname "$0")" && pwd)"
+PY="${ROOT}/.venv/bin/python"
+if [[ ! -x "${PY}" ]]; then
+  echo "No virtualenv yet. From ${ROOT} run ./install.sh" >&2
+  exit 1
+fi
+export PYTHONPATH="${ROOT}/src${PYTHONPATH:+:${PYTHONPATH}}"
+exec "${PY}" -m nexus.cli "$@"

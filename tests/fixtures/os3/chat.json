@@ -1,0 +1,113 @@
+{
+  "model": "meituan/longcat-2.5-preview:free",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are the user's assistant in rabbit OS3. Device work goes to a worker via create_task.\n<nodes>\n<node id=\"7c1d2e4a-5b6f-4a8c-9d0e-1f2a3b4c5d6e\" name=\"Studio Mini\" default=\"true\">\n<can-run-commands>yes</can-run-commands>\n<platform>darwin</platform>\n<hostname>Studio-Mini.local</hostname>\n</node>\n<node id=\"b3a9c8d7-e6f5-4b4a-8c3d-2e1f0a9b8c7d\" name=\"Laptop\">\n<can-run-commands>yes</can-run-commands>\n<platform>darwin</platform>\n<hostname>Laptop.local</hostname>\n</node>\n</nodes>\n"
+    },
+    {
+      "role": "user",
+      "content": "Can you tidy up my Downloads folder on the Studio Mini? Move old installers to the trash."
+    }
+  ],
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "create_task",
+        "description": "Start a background worker for work on a device.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "instructions": {
+              "type": "string"
+            },
+            "node_id": {
+              "type": "string",
+              "description": "Id of a registered device from the <nodes> list."
+            }
+          },
+          "required": [
+            "title",
+            "instructions"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "notify_before_act",
+        "description": "Tell the user in one line what you are about to do.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "message"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "steer_task",
+        "description": "Send a follow-up instruction to a running task.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "task_id": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "task_id",
+            "message"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "cancel_task",
+        "description": "Cancel a running task.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "task_id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "task_id"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "get_setup_status",
+        "description": "Report which OS3 capabilities are configured.",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        }
+      }
+    }
+  ],
+  "tool_choice": "auto",
+  "temperature": 0.2
+}

@@ -1,0 +1,238 @@
+gui/501/com.apple.peopled = {
+	active count = 0
+	path = /System/Library/LaunchAgents/com.apple.peopled.plist
+	type = LaunchAgent
+	state = not running
+
+	program = /System/Library/PrivateFrameworks/People.framework/peopled
+		<env stripped>
+
+		<env stripped>
+
+		<env stripped>
+
+	domain = gui/501 [100015]
+	asid = 100015
+	minimum runtime = 10
+	base minimum runtime = 10
+	exit timeout = 1
+	runs = 1
+	last exit reason = JETSAM_REASON_MEMORY_IDLE_EXIT
+	last jetsam exit details = JETSAM_REASON_MEMORY_IDLE_EXIT
+
+	event triggers = {
+		com.apple.people.missedCall => {
+			keepalive = 0
+			service = com.apple.peopled
+			stream = com.apple.biome.compute.publisher.user
+			monitor = com.apple.BiomeAgent
+			descriptor = {
+				"identifier" => "com.apple.people.missedCall"
+				"graph" => {
+					"name" => "streamPublisher"
+					"streamIdentifier" => "AppIntent"
+					"version" => 1
+				}
+				"client" => "com.apple.peopled"
+			}
+		}
+		com.apple.people.location => {
+			keepalive = 0
+			service = com.apple.peopled
+			stream = com.apple.biome.compute.publisher.user
+			monitor = com.apple.BiomeAgent
+			descriptor = {
+				"identifier" => "com.apple.people.location"
+				"graph" => {
+					"name" => "streamPublisher"
+					"streamIdentifier" => "FindMyLocationChange"
+					"version" => 1
+				}
+				"client" => "com.apple.peopled"
+			}
+		}
+		com.apple.people.screenTimeRequest => {
+			keepalive = 0
+			service = com.apple.peopled
+			stream = com.apple.biome.compute.publisher.user
+			monitor = com.apple.BiomeAgent
+			descriptor = {
+				"identifier" => "com.apple.people.screenTimeRequest"
+				"graph" => {
+					"name" => "streamPublisher"
+					"streamIdentifier" => "ScreenTimeRequest"
+					"version" => 1
+				}
+				"client" => "com.apple.peopled"
+			}
+		}
+		com.apple.people.dndAvailability => {
+			keepalive = 0
+			service = com.apple.peopled
+			stream = com.apple.biome.compute.publisher.user
+			monitor = com.apple.BiomeAgent
+			descriptor = {
+				"identifier" => "com.apple.people.dndAvailability"
+				"graph" => {
+					"name" => "streamPublisher"
+					"streamIdentifier" => "UserStatusChange"
+					"version" => 1
+				}
+				"client" => "com.apple.peopled"
+			}
+		}
+		com.apple.people.askToBuyRequest => {
+			keepalive = 0
+			service = com.apple.peopled
+			stream = com.apple.biome.compute.publisher.user
+			monitor = com.apple.BiomeAgent
+			descriptor = {
+				"identifier" => "com.apple.people.askToBuyRequest"
+				"graph" => {
+					"name" => "streamPublisher"
+					"streamIdentifier" => "AskToBuy"
+					"version" => 1
+				}
+				"client" => "com.apple.peopled"
+			}
+		}
+		com.apple.people.unreadMessage => {
+			keepalive = 0
+			service = com.apple.peopled
+			stream = com.apple.biome.compute.publisher.user
+			monitor = com.apple.BiomeAgent
+			descriptor = {
+				"identifier" => "com.apple.people.unreadMessage"
+				"graph" => {
+					"name" => "streamPublisher"
+					"streamIdentifier" => "AppIntent"
+					"version" => 1
+				}
+				"client" => "com.apple.peopled"
+			}
+		}
+		com.apple.people.readMessage => {
+			keepalive = 0
+			service = com.apple.peopled
+			stream = com.apple.biome.compute.publisher.user
+			monitor = com.apple.BiomeAgent
+			descriptor = {
+				"identifier" => "com.apple.people.readMessage"
+				"graph" => {
+					"name" => "streamPublisher"
+					"streamIdentifier" => "ReadMessage"
+					"version" => 1
+				}
+				"client" => "com.apple.peopled"
+			}
+		}
+		com.apple.people.childState => {
+			keepalive = 0
+			service = com.apple.peopled
+			stream = com.apple.biome.compute.publisher.user
+			monitor = com.apple.BiomeAgent
+			descriptor = {
+				"identifier" => "com.apple.people.childState"
+				"graph" => {
+					"name" => "streamPublisher"
+					"streamIdentifier" => "Family.ScreenTime.ChildState"
+					"version" => 1
+				}
+				"client" => "com.apple.peopled"
+			}
+		}
+		__ABDataBaseChangedByOtherProcessNotification => {
+			keepalive = 0
+			service = com.apple.peopled
+			stream = com.apple.notifyd.matching
+			monitor = com.apple.notifyd
+			descriptor = {
+				"Notification" => "__ABDataBaseChangedByOtherProcessNotification"
+			}
+		}
+		_CalDatabaseChangedNotification => {
+			keepalive = 0
+			service = com.apple.peopled
+			stream = com.apple.notifyd.matching
+			monitor = com.apple.notifyd
+			descriptor = {
+				"Notification" => "_CalDatabaseChangedNotification"
+			}
+		}
+		com.apple.accessibility.cache.prefers.horizontal.text => {
+			keepalive = 0
+			service = com.apple.peopled
+			stream = com.apple.notifyd.matching
+			monitor = com.apple.notifyd
+			descriptor = {
+				"Notification" => "com.apple.accessibility.cache.prefers.horizontal.text"
+			}
+		}
+	}
+
+	endpoints = {
+		"com.apple.corespotlight.daemon.people" = {
+			port = 0x11fd7b
+			active = 0
+			managed = 1
+			reset = 0
+			hide = 0
+			watching = 1
+		}
+		"com.apple.people.agent" = {
+			port = 0x10be2b
+			active = 0
+			managed = 1
+			reset = 0
+			hide = 0
+			watching = 1
+		}
+	}
+
+	event channels = {
+		"com.apple.biome.compute.publisher.user" = {
+			port = 0x120623
+			active = 0
+			managed = 1
+			reset = 0
+			hide = 0
+			watching = 1
+		}
+		"com.apple.notifyd.matching" = {
+			port = 0x11fe0b
+			active = 0
+			managed = 1
+			reset = 0
+			hide = 0
+			watching = 1
+		}
+	}
+
+	resource coalition = {
+		ID = 2025
+		type = resource
+		state = active
+		active count = 1
+		name = com.apple.peopled
+	}
+
+	jetsam coalition = {
+		ID = 2026
+		type = jetsam
+		state = active
+		active count = 1
+		name = com.apple.peopled
+	}
+
+	spawn type = adaptive (6)
+	jetsam priority = 40
+	jetsam memory limit (active, soft) = 15 MB
+	jetsam memory limit (inactive, hard) = 15 MB
+	jetsamproperties category = daemon
+	jetsam thread limit = 32
+	cpumon = default
+	exponential throttling grace limit = 10
+	sanitizer flags = 0x0
+
+	properties = supports transactions | supports pressured exit | system service | exponential throttling | tle system
+}

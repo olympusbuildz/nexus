@@ -1,0 +1,13 @@
+title = "nexus"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Synthetic keys used as test fixtures"
+regexes = [
+  '''sk-or-v1-abcdefghijklmnopqrstuvwxyz0123456789''',
+  '''sk-or-v1-FIXTURE-[A-Za-z0-9-]+''',
+  '''sk-proj-0123456789abcdef''',
+  '''xai-env-key-0123456789abcdef-zzzz''',
+]

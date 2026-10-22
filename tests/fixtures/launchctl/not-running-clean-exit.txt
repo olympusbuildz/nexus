@@ -1,0 +1,67 @@
+gui/501/com.google.GoogleUpdater.wake = {
+	active count = 0
+	path = /Users/USER/Library/LaunchAgents/com.google.GoogleUpdater.wake.plist
+	type = LaunchAgent
+	state = not running
+
+	program = /Users/USER/Library/Application Support/Google/GoogleUpdater/Current/GoogleUpdater.app/Contents/MacOS/GoogleUpdater
+	arguments = {
+		/Users/USER/Library/Application Support/Google/GoogleUpdater/Current/GoogleUpdater.app/Contents/MacOS/GoogleUpdater
+		--wake-all
+		--enable-logging
+		--vmodule=*/components/update_client/*=2,*/chrome/enterprise_companion/*=2,*/chrome/updater/*=2
+	}
+
+		<env stripped>
+
+		<env stripped>
+
+		<env stripped>
+
+	LWCR = {
+		"reqs" => {
+			"signing-identifier" => "com.google.GoogleUpdater"
+			"validation-category" => 6
+			"team-identifier" => "EQHXZ8M8AV"
+		}
+		"vers" => 1
+		"comp" => 1
+		"ccat" => 0
+	}
+
+	domain = gui/501 [100015]
+	asid = 100015
+	minimum runtime = 10
+	exit timeout = 5
+	runs = 352
+	last exit code = 0
+
+	resource coalition = {
+		ID = 2358
+		type = resource
+		state = active
+		active count = 1
+		name = com.google.GoogleUpdater.wake
+	}
+
+	jetsam coalition = {
+		ID = 2359
+		type = jetsam
+		state = active
+		active count = 1
+		name = com.google.GoogleUpdater.wake
+	}
+
+	spawn type = daemon (3)
+	jetsam priority = 40
+	jetsam memory limit (active) = (unlimited)
+	jetsam memory limit (inactive) = (unlimited)
+	jetsamproperties category = daemon
+	jetsam thread limit = 32
+	cpumon = default
+	run interval = 3600 seconds
+	job state = exited
+	sanitizer flags = 0x0
+
+	properties = abandon process group | inferred program | managed LWCR | has LWCR
+}

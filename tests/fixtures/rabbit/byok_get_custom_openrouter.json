@@ -1,0 +1,15 @@
+{
+  "credential": {
+    "provider": "custom",
+    "maskedKey": "sk-or-v1-****wxyz",
+    "model": "anthropic/claude-sonnet-4.5",
+    "tierModels": {"small": "anthropic/claude-haiku-4.5", "standard": "anthropic/claude-sonnet-4.5"},
+    "config": {
+      "endpoint": "https://openrouter.ai/api/v1",
+      "modelId": "anthropic/claude-sonnet-4.5",
+      "nodeId": null,
+      "contextWindow": 200000
+    },
+    "status": {"lastCallOutcome": "ok", "lastCallAt": "2026-10-07T18:02:11Z"}
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "provider": "local",
+  "maskedKey": "****c1d7",
+  "model": "stealth/space-bunny-alpha",
+  "config": {
+    "endpoint": "http://127.0.0.1:11435/v1",
+    "modelId": "stealth/space-bunny-alpha",
+    "nodeId": "node-fixture-1",
+    "contextWindow": 65536
+  },
+  "status": {
+    "lastCallOutcome": "ok",
+    "lastCallAt": "2026-10-08T09:30:00Z"
+  }
+}

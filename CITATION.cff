@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: If you use Nexus, please cite it as below.
+title: Nexus
+type: software
+authors:
+  - alias: olympusbuildz
+license: MIT
+repository-code: https://github.com/olympusbuildz/nexus
+version: 0.7.2

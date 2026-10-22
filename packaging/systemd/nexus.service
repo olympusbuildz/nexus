@@ -1,0 +1,18 @@
+# Installed by ./nexus start.
+[Unit]
+Description=Nexus OpenAI-compatible loopback gateway
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=__REPO__
+ExecStart=__PYTHON__ -m os3_bridge.cli run
+# Start expands this to Homebrew, absolute $HOME/.grok/bin, then the system PATH.
+Environment=PATH=__SERVICE_PATH__
+__ENV_LINES__
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+
+[Install]
+WantedBy=default.target

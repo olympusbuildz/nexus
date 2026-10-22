@@ -1,0 +1,68 @@
+gui/501/com.rabbit.rabbit-agent = {
+	active count = 1
+	path = /Users/USER/Library/LaunchAgents/com.rabbit.rabbit-agent.plist
+	type = LaunchAgent
+	state = running
+
+	program = /Users/USER/.rabbit-agent/versions/0.1.14/rabbit-agent.app/Contents/MacOS/rabbit-agent
+	arguments = {
+		/Users/USER/.rabbit-agent/versions/0.1.14/rabbit-agent.app/Contents/MacOS/rabbit-agent
+		run
+	}
+
+	working directory = /Users/USER/.rabbit-agent
+
+	stdout path = /Users/USER/.rabbit-agent/logs/launchd.out.log
+	stderr path = /Users/USER/.rabbit-agent/logs/launchd.err.log
+		<env stripped>
+
+		<env stripped>
+
+		<env stripped>
+
+	domain = gui/501 [100015]
+	asid = 100015
+	minimum runtime = 10
+	exit timeout = 5
+	runs = 3
+	pid = 93532
+	immediate reason = inefficient
+	forks = 1488
+	execs = 1
+	initialized = 1
+	trampolined = 1
+	started suspended = 0
+	proxy started suspended = 0
+	checked allocations = 0 (queried = 1)
+	checked allocations reason = no host
+	checked allocations flags = 0x0
+	last exit code = 0
+
+	resource coalition = {
+		ID = 28703
+		type = resource
+		state = active
+		active count = 1
+		name = com.rabbit.rabbit-agent
+	}
+
+	jetsam coalition = {
+		ID = 28704
+		type = jetsam
+		state = active
+		active count = 1
+		name = com.rabbit.rabbit-agent
+	}
+
+	spawn type = daemon (3)
+	jetsam priority = 40
+	jetsam memory limit (active) = (unlimited)
+	jetsam memory limit (inactive) = (unlimited)
+	jetsamproperties category = daemon
+	jetsam thread limit = 32
+	cpumon = default
+	job state = running
+	sanitizer flags = 0x0
+
+	properties = keepalive | runatload | inferred program
+}

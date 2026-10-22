@@ -1,0 +1,99 @@
+name: "Bug Report"
+description: Something is broken, crashes, or behaves incorrectly.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug.
+
+        **Before submitting:**
+        - Search existing issues
+        - Run `./doctor.sh` and note PASS/FAIL
+        - Update to the latest `main` and confirm it still happens
+        - Do **not** paste the Nexus key, provider keys, or the contents of your Nexus key file
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: What broke? Include status codes and redacted error JSON if useful.
+      placeholder: |
+        What happened? What did you expect instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Minimal steps. Prefer exact commands.
+      placeholder: |
+        1. ./install.sh
+        2. ./nexus setup --backend openrouter …
+        3. ./nexus start
+        4. curl … /v1/chat/completions
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+    validations:
+      required: true
+
+  - type: dropdown
+    id: backend
+    attributes:
+      label: Active Backend
+      options:
+        - openrouter
+        - openai
+        - anthropic
+        - xai
+        - chatgpt
+        - codex
+        - claude-code
+        - copilot
+        - grok-build
+        - antigravity
+        - nous
+        - unknown / not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: OS
+      options:
+        - macOS
+        - Linux
+        - other
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: "`__version__` from `src/nexus/__init__.py`, or the git commit."
+      placeholder: 0.7.2
+    validations:
+      required: true
+
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Doctor output
+      description: Paste `./doctor.sh` JSON if you can. Redact any key material.
+      render: json

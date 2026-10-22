@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nexus"
+version = "0.7.2"
+description = "Nexus: one local OpenAI-compatible endpoint on 127.0.0.1 for your own API keys and AI subscriptions"
+requires-python = ">=3.11"
+readme = "README.md"
+license = "MIT"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
+    "httpx>=0.27.0",
+]
+
+[project.scripts]
+nexus = "nexus.cli:main"
+os3-bridge = "nexus.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["nexus*"]
+namespaces = false
+
+[tool.setuptools.package-data]
+nexus = ["static/fonts/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "."]
+filterwarnings = [
+    "ignore:Using `httpx` with `starlette.testclient` is deprecated:starlette.exceptions.StarletteDeprecationWarning",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+src = ["src/nexus", "tests", "server.py"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+"src/nexus/auth.py" = ["B008"]
+# The page is one HTML/CSS/JS string; wrapping it would only make diffs harder to read.
+"src/nexus/dashboard.py" = ["E501"]
+# Script inserts the checkout on sys.path before importing the package.
+"scripts/sync-nous-token.py" = ["E402"]

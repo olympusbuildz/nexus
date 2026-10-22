@@ -1,0 +1,204 @@
+{
+  "model": "meituan/longcat-2.5-preview:free",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a worker agent in OS3. You execute tasks by calling tools on the user's device.\n<nodes>\n<node id=\"7c1d2e4a-5b6f-4a8c-9d0e-1f2a3b4c5d6e\" name=\"Studio Mini\" default=\"true\">\n<can-run-commands>yes</can-run-commands>\n<platform>darwin</platform>\n<hostname>Studio-Mini.local</hostname>\n</node>\n<node id=\"b3a9c8d7-e6f5-4b4a-8c3d-2e1f0a9b8c7d\" name=\"Laptop\">\n<can-run-commands>yes</can-run-commands>\n<platform>darwin</platform>\n<hostname>Laptop.local</hostname>\n</node>\n</nodes>\nThe user has approved operating the device for this task. Report the result when done. Use the dlam skill and computer_use for anything on screen."
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "<task>Open Calculator on the Studio Mini and compute 1234 x 56. Report the number it shows.</task>"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "call_b1",
+          "type": "function",
+          "function": {
+            "name": "computer_use",
+            "arguments": "{\"node_id\": \"7c1d2e4a-5b6f-4a8c-9d0e-1f2a3b4c5d6e\", \"script\": \"capture.py\", \"args\": [\"--out\", \"/tmp/os3-shot-1.png\"]}"
+          }
+        },
+        {
+          "id": "call_b2",
+          "type": "function",
+          "function": {
+            "name": "feed_image",
+            "arguments": "{\"node_id\": \"7c1d2e4a-5b6f-4a8c-9d0e-1f2a3b4c5d6e\", \"reference\": \"/tmp/os3-shot-1.png\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_b1",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"commandId\": \"c-1\", \"exitCode\": 0, \"stdout\": \"{\\\"screenshotPath\\\": \\\"/tmp/os3-shot-1.png\\\"}\", \"stderr\": \"\", \"durationMs\": 412}"
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_b2",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"tool\": \"feed_image\", \"kind\": \"local-file\", \"source\": \"/tmp/os3-shot-1.png\", \"mimeType\": \"image/png\", \"bytes\": 70}"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Image output of tool call call_b2:"
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="
+          }
+        }
+      ]
+    }
+  ],
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "computer_use_prepare",
+        "description": "Prepare a device for desktop control.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "node_id": {
+              "type": "string",
+              "description": "Id of a registered device from the <nodes> list."
+            }
+          },
+          "required": [
+            "node_id"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "computer_use",
+        "description": "Run one bounded desktop script: probe.py, capture.py or act.py.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "node_id": {
+              "type": "string",
+              "description": "Id of a registered device from the <nodes> list."
+            },
+            "script": {
+              "type": "string"
+            },
+            "args": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "node_id",
+            "script"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "feed_image",
+        "description": "Show a local image file to the model.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "reference": {
+              "type": "string"
+            },
+            "node_id": {
+              "type": "string",
+              "description": "Id of a registered device from the <nodes> list."
+            }
+          },
+          "required": [
+            "reference",
+            "node_id"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "skill_view",
+        "description": "Read a skill's instructions.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "name"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "notify_before_act",
+        "description": "Tell the user in one line what you are about to do.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "message"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "ask_user",
+        "description": "Ask the user a question and wait.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "question": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "question"
+          ]
+        }
+      }
+    }
+  ],
+  "tool_choice": "auto",
+  "reasoning_effort": "medium"
+}

@@ -1,0 +1,12 @@
+{
+  "provider": "local",
+  "maskedKey": "****c1d7",
+  "model": "openai/gpt-4o-mini",
+  "config": {
+    "endpoint": "http://127.0.0.1:11435/v1",
+    "modelId": "openai/gpt-4o-mini",
+    "nodeId": "node-fixture-1",
+    "contextWindow": 65536
+  },
+  "status": {"lastCallOutcome": "ok", "lastCallAt": "2026-10-08T09:30:00Z"}
+}

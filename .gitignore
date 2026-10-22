@@ -1,0 +1,41 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+.os3_bridge_api_key
+.os3_bridge_backend
+.os3_bridge_model
+.os3_bridge_roles.json
+.os3_bridge_fallback.json
+.os3_bridge_rabbit_watchdog.json
+.nexus_api_key
+.nexus_backend
+.nexus_model
+.nexus_roles.json
+.nexus_fallback.json
+.nexus_usage.json
+.nexus_rabbit_watchdog.json
+*.key
+*.pem
+# Any other local state, backup or temp copy of the files above
+.nexus_*
+.os3_bridge_*
+# Default folder for saved provider keys that Rabbit setup auto-detects (rabbit_keys.py)
+rabbit-keys/
+.env
+.env.*
+!.env.example
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+os3-bridge.out.log
+os3-bridge.err.log
+*.log
+*.log.old
+.os3_bridge_rabbit_backup.json
+.nexus_rabbit_backup.json
+
+# Rabbit setup atomic-write temp files (see rabbit_setup.write_private_json)
+..os3_bridge_rabbit_backup.json.*.tmp
+..nexus_rabbit_backup.json.*.tmp

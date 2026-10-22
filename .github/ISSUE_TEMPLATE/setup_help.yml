@@ -1,0 +1,68 @@
+name: "Setup / Installation Help"
+description: Trouble installing, setting up, or connecting Rabbit OS3 to Nexus.
+title: "[Setup]: "
+labels: ["setup"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Quick checks:**
+        - `./install.sh` then `./nexus setup` then `./nexus start` then `./doctor.sh`
+        - Base URL must be `http://127.0.0.1:11435/v1` (not `localhost`)
+        - Subscription backends need the official CLI on `PATH` and already logged in
+        - Do **not** paste real keys into this issue
+
+        Wiring details: [CONNECT.md](https://github.com/olympusbuildz/nexus/blob/main/CONNECT.md)
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What's Going Wrong?
+      description: What are you trying to do, and where does it fail?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps Taken
+      description: Exact commands when possible.
+      placeholder: |
+        1. git clone …
+        2. ./install.sh
+        3. ./nexus setup --backend openrouter
+        4. ./nexus start
+        5. ./doctor.sh → FAIL …
+    validations:
+      required: true
+
+  - type: dropdown
+    id: goal
+    attributes:
+      label: Goal
+      options:
+        - Connect Rabbit OS3 (OS3 Local / Cipher)
+        - Use a subscription backend (chatgpt / codex / claude-code / …)
+        - Use an API-key backend (OpenRouter / OpenAI / …)
+        - Install or start the service
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: OS
+      options:
+        - macOS
+        - Linux
+        - other
+    validations:
+      required: true
+
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Doctor output
+      description: Paste `./doctor.sh` JSON if you can. Redact keys.
+      render: json
