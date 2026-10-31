@@ -325,6 +325,15 @@ class FailoverBackend:
             if not self._state.cooling(n)
             and (n == primary_id or _can_serve(n, tools=tools, images=images))
         ]
+        if (
+            primary_id in order
+            and not _can_serve(primary_id, tools=tools, images=images)
+            and any(n != primary_id for n in order)
+        ):
+            # A CLI primary refuses tools (and some refuse images) with a 400.
+            # Hand that request to the next backend in the chain that can serve it.
+            logger.info("primary %s cannot serve this request; using the chain", primary_id)
+            order.remove(primary_id)
         failures: list[tuple[str, str, str]] = []
         skipped: list[str] = []
         last: GatewayError | None = None

@@ -874,3 +874,18 @@ def test_doctor_sh_prints_the_chain_and_the_warning(
     ).stdout
     assert "fallback chain: codex -> openrouter" in out
     assert "WARNING: The chain moves from a subscription backend (codex)" in out
+
+
+def test_a_cli_primary_hands_a_tools_request_to_the_chain(rig) -> None:
+    # The CLI would answer 400 tools_not_supported; the next capable backend serves it.
+    r = rig()
+    response = r.chat(tools=TOOLS)
+    assert response.status_code == 200
+    assert "from nous" in response.text
+    assert r.calls == {"codex": 0, "claude-code": 0, "nous": 1, "openrouter": 0}
+
+
+def test_a_cli_primary_still_serves_plain_chat(rig) -> None:
+    r = rig()
+    assert "from codex" in r.chat().text
+    assert r.calls["codex"] == 1
