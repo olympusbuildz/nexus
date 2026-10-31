@@ -110,7 +110,7 @@ BACKEND_DEFAULT_MODELS = {
     "chatgpt": "gpt-6-luna",
     "claude-code": "claude-sonnet-4-5",
     "copilot": "claude-sonnet-4.6",
-    "grok-build": "grok-build",
+    "grok-build": "grok-4.7",
     "antigravity": "gemini-3.8-flash-high",
 }
 CLI_BIN_ENV = {

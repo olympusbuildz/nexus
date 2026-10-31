@@ -1,11 +1,12 @@
 """Serve the active backend's model when a client names one it does not list.
 
 A client such as OS3 may send a model id from another provider (an OpenRouter id
-while Nous is active). The upstream would answer 404. When the backend's live
-model list is known and the id is not in it, the request is sent to the model
-the bridge already treats as the active one (``model_for``). Everything that
-cannot be judged is left alone: no list, a CLI backend that resolves the model
-itself, a request with no model.
+while Nous is active, or a ``vendor/model`` id while a subscription CLI is
+active). The upstream would answer 404, and a CLI rejects anything that is not
+a single model token. When that id can be judged foreign, the request is sent
+to the model the bridge already treats as the active one (``model_for``).
+Everything that cannot be judged is left alone: no list, a CLI token, a
+request with no model.
 
 ``NEXUS_MODEL_FALLBACK=off`` restores pass-through.
 """
@@ -18,7 +19,7 @@ import time
 from dataclasses import dataclass
 
 from nexus.backends.base import Backend
-from nexus.backends.subscription import SubscriptionBackend
+from nexus.backends.subscription import _MODEL_OK, SubscriptionBackend
 from nexus.config import health_timeout, model_fallback_enabled, model_for
 from nexus.pulse import safe_model
 
@@ -56,10 +57,29 @@ async def _live_ids(backend: Backend, catalog: Catalog) -> tuple[str, ...] | Non
     return ids or None
 
 
+def _subscription_choice(backend: Backend, requested: str) -> ModelChoice:
+    """A CLI token is the client's. A foreign id is the active model, not a 400.
+
+    ``_MODEL_OK`` is the token rule ``_require_model`` enforces. A ``vendor/model``
+    id fails it, which is how another provider's id arrives. An empty ``model_for``
+    is left alone so that rejection still stands.
+    """
+    if _MODEL_OK.fullmatch(requested.strip()) is not None:
+        return ModelChoice(requested)
+    served = model_for(backend.id)
+    if not served or served == requested:
+        return ModelChoice(requested)
+    shown = safe_model(requested) or _UNSAFE
+    logger.info("model remapped backend=%s %s -> %s", backend.id, shown, served)
+    return ModelChoice(served, shown)
+
+
 async def choose_model(backend: Backend, requested: str, catalog: Catalog) -> ModelChoice:
     """Resolve ``requested`` against the backend's live list."""
-    if not model_fallback_enabled() or isinstance(backend, SubscriptionBackend):
+    if not model_fallback_enabled():
         return ModelChoice(requested)
+    if isinstance(backend, SubscriptionBackend):
+        return _subscription_choice(backend, requested)
     ids = await _live_ids(backend, catalog)
     if ids is None:
         return ModelChoice(requested)

@@ -188,13 +188,72 @@ def test_a_role_override_is_not_second_guessed(
     assert _upstream_models(transport) == ["not/listed"]
 
 
+def _cli_spy(kind: type):
+    class Spy(kind):
+        async def list_models(self):
+            raise AssertionError("a CLI backend's model list must not be consulted")
+
+    return Spy()
+
+
 def test_a_subscription_cli_resolves_its_own_model_and_is_not_asked() -> None:
     from nexus.backends.subscription import CodexCliBackend
     from nexus.model_fallback import choose_model
 
-    class Spy(CodexCliBackend):
-        async def list_models(self):
-            raise AssertionError("a CLI backend's model list must not be consulted")
+    choice = asyncio.run(choose_model(_cli_spy(CodexCliBackend), "gpt-5.6-sol", {}))
+    assert (choice.model, choice.remapped_from) == ("gpt-5.6-sol", None)
 
-    choice = asyncio.run(choose_model(Spy(), UNKNOWN, {}))
-    assert (choice.model, choice.remapped_from) == (UNKNOWN, None)
+
+def test_grok_build_remaps_a_foreign_id_to_model_for(
+    monkeypatch: pytest.MonkeyPatch, caplog: pytest.LogCaptureFixture
+) -> None:
+    monkeypatch.delenv("OS3_BRIDGE_MODEL", raising=False)
+    monkeypatch.delenv("NEXUS_MODEL", raising=False)
+    from nexus.backends.subscription import GrokBuildBackend
+    from nexus.config import model_for
+    from nexus.model_fallback import HEADER as remap_header
+    from nexus.model_fallback import choose_model, remap_headers
+
+    with caplog.at_level(logging.INFO, logger="nexus"):
+        choice = asyncio.run(choose_model(_cli_spy(GrokBuildBackend), ACTIVE, {}))
+    served = model_for("grok-build")
+    assert served and served != ACTIVE
+    assert (choice.model, choice.remapped_from) == (served, ACTIVE)
+    assert remap_headers(choice) == {remap_header: ACTIVE}
+    lines = [r.getMessage() for r in caplog.records if "remapped" in r.getMessage()]
+    assert lines == [f"model remapped backend=grok-build {ACTIVE} -> {served}"]
+
+
+def test_grok_build_keeps_a_cli_token(caplog: pytest.LogCaptureFixture) -> None:
+    from nexus.backends.subscription import GrokBuildBackend
+    from nexus.model_fallback import choose_model, remap_headers
+
+    with caplog.at_level(logging.INFO, logger="nexus"):
+        choice = asyncio.run(choose_model(_cli_spy(GrokBuildBackend), "grok-4.7", {}))
+    assert (choice.model, choice.remapped_from) == ("grok-4.7", None)
+    assert remap_headers(choice) == {}
+    assert [r for r in caplog.records if "remapped" in r.getMessage()] == []
+
+
+def test_grok_build_keeps_a_foreign_id_when_fallback_is_off(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("NEXUS_MODEL_FALLBACK", "off")
+    from nexus.backends.subscription import GrokBuildBackend
+    from nexus.model_fallback import choose_model, remap_headers
+
+    choice = asyncio.run(choose_model(_cli_spy(GrokBuildBackend), ACTIVE, {}))
+    assert (choice.model, choice.remapped_from) == (ACTIVE, None)
+    assert remap_headers(choice) == {}
+
+
+@pytest.mark.parametrize("served", ["", None])
+def test_grok_build_leaves_a_foreign_id_when_model_for_is_empty(
+    monkeypatch: pytest.MonkeyPatch, served: str | None
+) -> None:
+    monkeypatch.setattr("nexus.model_fallback.model_for", lambda _backend_id: served)
+    from nexus.backends.subscription import GrokBuildBackend
+    from nexus.model_fallback import choose_model
+
+    choice = asyncio.run(choose_model(_cli_spy(GrokBuildBackend), ACTIVE, {}))
+    assert (choice.model, choice.remapped_from) == (ACTIVE, None)

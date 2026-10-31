@@ -1407,7 +1407,7 @@ def test_grok_falls_back_to_catalog_when_the_probe_lists_nothing(
         row = client.get("/health").json()["backends"]["grok-build"]
     assert row["models_source"] == "catalog"
     assert "did not report a model list" in row["models_hint"]
-    assert row["models"] == ["grok-build"]
+    assert row["models"] == ["grok-4.7", "grok-4.7-build-fast", "grok-4.6", "grok-4.5"]
 
     monkeypatch.setenv("OS3_BRIDGE_AGY_BIN", str(tmp_path / "missing-agy"))
     with TestClient(create_app()) as client:

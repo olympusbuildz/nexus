@@ -87,7 +87,7 @@ CODEX_MODELS = ("gpt-5.6-sol", "gpt-5.6-terra", "gpt-5.6-luna", "gpt-5.5")
 CLAUDE_CODE_MODELS = ("claude-sonnet-4-5", "claude-haiku-4-5", "claude-opus-4-1")
 # Copilot's command reference lists claude-sonnet-4.6 as the general default.
 COPILOT_MODELS = ("claude-sonnet-4.6", "gpt-5.4", "claude-haiku-4.5", "gpt-5.3-codex")
-GROK_BUILD_MODELS = ("grok-build",)
+GROK_BUILD_MODELS = ("grok-4.7", "grok-4.7-build-fast", "grok-4.6", "grok-4.5")
 # First slugs from the documented `agy models` sample. Not a live account list.
 ANTIGRAVITY_MODELS = (
     "gemini-3.8-flash-high",
